@@ -1,0 +1,27 @@
+steps:
+
+# 1. Docker Image oluştur
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - build
+    - '-t'
+    - 'europe-west3-docker.pkg.dev/$PROJECT_ID/novacommerce/frontend:v1'
+    - '.'
+
+# 2. Image'ı Artifact Registry'ye gönder
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - push
+    - 'europe-west3-docker.pkg.dev/$PROJECT_ID/novacommerce/frontend:v1'
+
+# 3. Cloud Run Deploy
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+    - run
+    - deploy
+    - novacommerce-frontend
+    - '--image=europe-west3-docker.pkg.dev/$PROJECT_ID/novacommerce/frontend:v1'
+    - '--region=europe-west3'
+    - '--platform=managed'
+    - '--allow-unauthenticated'
