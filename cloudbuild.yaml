@@ -25,6 +25,7 @@ steps:
     - '--region=europe-west3'
     - '--platform=managed'
     - '--allow-unauthenticated'
+    - '--port=80'
 
 images:
   - 'europe-west3-docker.pkg.dev/$PROJECT_ID/novacommerce/frontend:v1'
